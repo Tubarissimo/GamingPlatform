@@ -7,7 +7,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         GameLibrary gameLibrary = new GameLibrary();
-        String file = "src/application/gamelist.txt";
+        String file = "GamingPlatform\\src\\application\\gamelist.txt";
         
         try 
         {
