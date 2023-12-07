@@ -1,28 +1,25 @@
 package application;
 
 public class Game {
-    protected String name;
-    Game next;
+    private String name;
+    private double price;
 
-    public Game (String name)
+    public Game (String name,double price)
     {
         this.name = name;
-        this.next = null;
+        this.price = price;
     }
 
     // getters
     public String getName() {
         return name;
     }
-    public Game getNext() {
-        return next;
+    public double getPrice() {
+        return price;
     }
 
-    // setters
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setNext(Game next) {
-        this.next = next;
+    @Override
+    public String toString() {
+        return "\t" + this.name + "\n\tPRICE:\tR$" + this.price + "\n\n";
     }
 }
