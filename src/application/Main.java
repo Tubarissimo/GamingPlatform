@@ -43,11 +43,11 @@ public class Main {
 
             while (line != null)
             {
+                Random random = new Random();
                 String[] dataStrings = line.split(" ");
 
-                User newUser = new User(dataStrings[0], dataStrings[1], dataStrings[2], 0, Double.parseDouble(dataStrings[3]));
+                User newUser = new User(dataStrings[0], dataStrings[1], dataStrings[2],random.nextInt(25) + 14, 0, Double.parseDouble(dataStrings[3]));
                 
-                Random random = new Random();
                 for (int i = 0; i < 30; i++) {
                     gameLibrary.buyGameSimple(newUser, random.nextInt(99) + 1);
                 }
@@ -76,6 +76,7 @@ public class Main {
                 "[4] SHOW USERS\n" + 
                 "[5] RANKING\n" +
                 "[6] SharkByteFAQ\n" +
+                "[7] UPDATES AND PATCHES\n" +
                 "[0] EXIT\n\n"
                 );
                 option = input.nextInt();
@@ -105,6 +106,10 @@ public class Main {
                     clearConsole();
                     sharkByteFAQ();
                     break;
+                case 7:
+                    clearConsole();
+                    gameLibrary.updatesAndPatches();
+                    break;
                 case 0:
                     clearConsole();
                     input.close();
@@ -128,6 +133,13 @@ public class Main {
                     "[5] DEPOSIT CREDITS\n" +
                     "[6] FIND A PLAYER TO PLAY\n" +
                     "[7] BUY SKINS/GAMEPASS\n" +
+                    "[8] SEND MESSAGE\n" +
+                    "[9] SENT MESSAGES\n" +
+                    "[10] RECEIVED MESSAGES\n" +
+                    "[11] SHOW USERS\n" + 
+                    "[12] RANKING\n" +
+                    "[13] SharkByteFAQ\n" +
+                    "[14] UPDATES AND PATCHES\n" +    
                     "[0] EXIT\n\n"
                 );
                 option = input.nextInt();
@@ -160,6 +172,34 @@ public class Main {
                 case 7:
                     clearConsole();
                     gameLibrary.inGamePurchases(userDatabase.getConnectedUser());
+                    break;
+                case 8:
+                    clearConsole();
+                    userDatabase.sendMessage(userDatabase.getConnectedUser());
+                    break;
+                case 9:
+                    clearConsole();
+                    System.out.println(userDatabase.showSentMessages(userDatabase.getConnectedUser()));
+                    break;
+                case 10:
+                    clearConsole();
+                    System.out.println(userDatabase.showReceivedMessages(userDatabase.getConnectedUser()));
+                    break;
+                case 11:
+                    clearConsole();
+                    System.out.println(userDatabase);
+                    break;
+                case 12:
+                    clearConsole();
+                    userDatabase.ranking();
+                    break;
+                case 13:
+                    clearConsole();
+                    sharkByteFAQ();
+                    break;
+                case 14:
+                    clearConsole();
+                    gameLibrary.updatesAndPatches();
                     break;
                 case 0:
                     clearConsole();

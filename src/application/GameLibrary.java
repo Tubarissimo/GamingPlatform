@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -41,6 +42,18 @@ public class GameLibrary {
 
         System.out.println("The game you chose was:\n" + gameList.get(indexGame));
 
+        if (user.getAge() < 18)
+        {
+            int confirmation = -1;
+            System.out.println("You must have your parents permission to do that!\n\nParents, do you allow to this purchase?\n[1] YES   [2] NO\n");
+            confirmation = in.nextInt();
+            if (confirmation == 2)
+            {
+                System.out.println("\nTransaction failed...\nYou don't have your parents permission!\n");
+                return;
+            }
+        }
+
         if (user.getOwnedGames().getGameList().contains(gameList.get(indexGame))) 
         {
             System.out.println("You already have this game!\n");
@@ -55,6 +68,8 @@ public class GameLibrary {
             confirmation = in.nextInt();
             if (confirmation == 1)
             {
+                System.out.println("Wich OS are downloading the game for?\n[1] WINDOWS\n[2] LINUX\n[3] MACOS\n");
+                in.nextInt();
                 user.getOwnedGames().getGameList().add(gameList.get(indexGame));
                 user.setCredits(user.getCredits() - gameList.get(indexGame).getPrice());
                 System.out.println("\nTransaction completed successfully!!!\n");
@@ -89,6 +104,17 @@ public class GameLibrary {
             confirmation = in.nextInt();
             if (confirmation == 1)
             {
+                if (user.getAge() < 18)
+                {
+                    int parentConfirmation = -1;
+                    System.out.println("You must have your parents permission to do that!\n\nParents, do you allow to this purchase?\n[1] YES   [2] NO\n");
+                    parentConfirmation = in.nextInt();
+                    if (parentConfirmation == 2)
+                    {
+                        System.out.println("\nTransaction failed...\nYou don't have your parents permission!\n");
+                        return;
+                    }
+                }
                 user.setCredits(user.getCredits() - 25.50);
                 System.out.println("\nTransaction completed successfully!!!\n");
                 user.setMoneySpent(user.getMoneySpent() + 25);
@@ -105,6 +131,22 @@ public class GameLibrary {
         }
     }
 
+    public void updatesAndPatches()
+    {
+        int indexGame = -1;
+        Random random = new Random();
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("\nType the number of the game wich you wanna check out about new patches or updates: ");
+        indexGame = in.nextInt() - 1;
+
+        System.out.println("The game you chose was:\n" + gameList.get(indexGame));
+
+        String patches[] = {"This game have a new update avaliable to download, check out!!!\n","This game have a new patch correcting bugs, check out!\n","This game don't have any new updates or patches... We will notice you when there are.\n"};
+        int index = random.nextInt(3);
+        System.out.println(patches[index]);
+    }
+
     @Override
     public String toString() 
     {
@@ -116,5 +158,4 @@ public class GameLibrary {
 
         return gameString.toString();
     }
-
 }

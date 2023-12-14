@@ -31,7 +31,7 @@ public class UserDatabase {
 
     public void registerUser()
     {
-        User newUser = new User(null, null, null, 0, 0);
+        User newUser = new User(null, null, null, 0, 0, 0);
         Scanner in = new Scanner(System.in);
         System.out.println("Type your e-mail adress: ");
         newUser.setEmail(in.nextLine());
@@ -39,13 +39,24 @@ public class UserDatabase {
         newUser.setPassword(in.nextLine());
         System.out.println("Type your user nickname: ");
         newUser.setNickname(in.nextLine());
+        System.out.println("How old are you: ");
+        newUser.setAge(in.nextInt());
         userList.add(newUser);
         System.out.println("New user created successfully!\n");
     }
 
-    public User searchUser(String email, String password) {
+    public User validateUser(String email, String password) {
         for (User user : userList) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User searchUser(String nickname) {
+        for (User user : userList) {
+            if (user.getNickname().equals(nickname)) {
                 return user;
             }
         }
@@ -61,9 +72,9 @@ public class UserDatabase {
         System.out.println("Type your password: ");
         String passwordString = in.nextLine();
         
-        if (searchUser(emailString, passwordString) != null)
+        if (validateUser(emailString, passwordString) != null)
         {
-            setConnectedUser(searchUser(emailString, passwordString));
+            setConnectedUser(validateUser(emailString, passwordString));
             System.out.println("Logged in successfully!\n");
         }
         else
@@ -76,6 +87,17 @@ public class UserDatabase {
     {
         Scanner in = new Scanner(System.in);
 
+        if (this.getConnectedUser().getAge() < 18)
+        {
+            int confirmation = -1;
+            System.out.println("You must have your parents permission to do that!\n\nParents, do you allow to do the deposit?\n[1] YES   [2] NO\n");
+            confirmation = in.nextInt();
+            if (confirmation == 2)
+            {
+                System.out.println("\nTransaction failed...\nYou don't have your parents permission!\n");
+                return;
+            }
+        }
         System.out.println("How much credits do you wanna deposit in your account?\n");
         this.getConnectedUser().setCredits(getConnectedUser().getCredits() + in.nextInt());
         System.out.println("Deposit made successfully!\n");
@@ -116,6 +138,68 @@ public class UserDatabase {
         }
 
         return bestMatch;
+    }
+
+    public void sendMessage(User user)
+    {
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Write the nickname of the user you wanna chat: ");
+        String searchedUser = in.nextLine();
+
+        if (searchUser(searchedUser) == null)
+        {
+            System.out.println("User not found\n");
+            return;
+        }
+
+        System.out.println("Type the message tou wanna send to this user: ");
+        String message = in.nextLine();
+
+        StringBuilder messageBuilder = new StringBuilder();
+
+        messageBuilder.append("\n\t[ ").append(getConnectedUser().getNickname()).append(" ]\n").append(message).append("\n\n");
+
+        user.getSentChatMessages().add(messageBuilder.toString());
+        searchUser(searchedUser).getReceivedChatMessages().add(messageBuilder.toString());
+
+        System.out.println("Message sent succesfully\n");
+    }
+
+    public String showSentMessages(User user)
+    {
+        StringBuilder messageString = new StringBuilder();
+
+        if (user.getSentChatMessages().isEmpty() == true)
+        {
+            return "You have no sent messages\n";
+        }
+        else
+        {
+            for (String message : user.getSentChatMessages()) {
+                messageString.append(message);
+            }
+            
+            return messageString.toString();
+        }
+    }
+
+    public String showReceivedMessages(User user)
+    {
+        StringBuilder messageString = new StringBuilder();
+
+        if (user.getReceivedChatMessages().isEmpty() == true)
+        {
+            return "You have no messages\n";
+        }
+        else
+        {
+            for (String message : user.getReceivedChatMessages()) {
+                messageString.append(message);
+            }
+            
+            return messageString.toString();
+        }
     }
 
     @Override

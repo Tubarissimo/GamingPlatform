@@ -1,26 +1,33 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class User {
     private String email;
     private String password;
     private String nickname;
+    private int age;
     private int score;
     private double credits;
     private int moneySpent;
     private GameLibrary ownedGames;
+    private ArrayList<String> sentChatMessages;
+    private ArrayList<String> receivedChatMessages;
 
     
-    public User(String email,String password,String nickname,int score,double credits)
+    public User(String email,String password,String nickname,int age,int score,double credits)
     {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
+        this.age = age;
         this.score = score;
         this.credits = credits;
         this.moneySpent = 0;
         this.ownedGames = new GameLibrary();
+        this.sentChatMessages = new ArrayList<>();
+        this.receivedChatMessages = new ArrayList<>();
     }
 
 
@@ -34,6 +41,9 @@ public class User {
     public String getNickname() {
         return nickname;
     }
+    public int getAge() {
+        return age;
+    }
     public int getScore() {
         return score;
     }
@@ -46,6 +56,12 @@ public class User {
     public GameLibrary getOwnedGames() {
         return ownedGames;
     }
+    public ArrayList<String> getSentChatMessages() {
+        return sentChatMessages;
+    }
+    public ArrayList<String> getReceivedChatMessages() {
+        return receivedChatMessages;
+    }
 
     // setters
     public void setEmail(String email) {
@@ -56,6 +72,9 @@ public class User {
     }
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+    public void setAge(int age) {
+        this.age = age;
     }
     public void setScore(int score) {
         this.score = score;
@@ -93,6 +112,7 @@ public class User {
     {
         return "NAME:\t " + this.nickname + "\n\n" + 
                 "SCORE:\t " + this.score + "\n\n" + 
+                "AGE:\t " + this.age + "\n\n" + 
                 "CREDITS: R$" + String.format("%.2f", this.credits) + "\n\n" + 
                 "\n\n";
     }
