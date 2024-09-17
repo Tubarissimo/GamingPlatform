@@ -1,4 +1,4 @@
-package application;
+package games_database;
 
 public class Game {
     private String name;
@@ -16,6 +16,14 @@ public class Game {
     }
     public double getPrice() {
         return price;
+    }
+
+    // setters
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override
